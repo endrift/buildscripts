@@ -65,17 +65,7 @@ function extract_and_patch {
 #---------------------------------------------------------------------------------
 	if [ ! -f extracted-$1 ]; then
 		echo "extracting $1"
-		if [ $3 == "bz2" ]; then
-			extractflags="-xjf"
-			archivetype=".tar.bz2"
-		elif [ $3 == "gz" ]; then
-			extractflags="-xzf"
-			archivetype=".tar.gz"
-		else
-			echo "invalid archive type"
-			exit 1
-		fi
-		tar $extractflags "$SRCDIR/$1-$2$archivetype" || { echo "Error extracting "$1; exit 1; }
+		tar -xf "$SRCDIR/$1-$2.tar.$3" || { echo "Error extracting "$1; exit 1; }
 		touch extracted-$1
 	fi
 	if [[ ! -f patched-$1 && -f $patchdir/$1-$2.patch ]]; then
