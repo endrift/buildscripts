@@ -1,0 +1,14 @@
+cache:
+  - directories:
+    - out/archives
+env:
+  - DEVKIT=arm
+  - DEVKIT=ppc
+services:
+  - docker
+install:
+  - mkdir -p out/archives
+script:
+  - sed -i -e 's/1 -eq 1/0 -eq 1/' build-devkit.sh
+  - docker build -t devkitpro/devkit$DEVKIT dk${DEVKIT}*/docker
+  - docker run -v $PWD/out:/opt -v $PWD:/root/buildscripts devkitpro/devkit$DEVKIT
