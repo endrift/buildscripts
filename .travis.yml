@@ -1,4 +1,6 @@
+language: c
 cache:
+  - ccache
   - directories:
     - out/archives
 env:
@@ -11,4 +13,7 @@ install:
 script:
   - sed -i -e 's/1 -eq 1/0 -eq 1/' build-devkit.sh
   - docker build -t devkitpro/devkit$DEVKIT dk${DEVKIT}*/docker
-  - docker run -v $PWD/out:/opt -v $PWD:/root/buildscripts devkitpro/devkit$DEVKIT > /dev/null
+  - docker run -v $PWD/out:/opt
+               -v $PWD:/root/buildscripts
+               -v $HOME/.ccache:/root/.ccache
+               devkitpro/devkit$DEVKIT > /dev/null
